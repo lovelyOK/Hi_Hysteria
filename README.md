@@ -10,7 +10,7 @@ A: 因为hysteria v2刚发布正式版没有几个小时，只有sing-box beta�
 客户端没有很好的适配，0.4.9先不准备，等下个版本0.5.0会同时兼容v1和v2两个版本（尽快更新）
 v1和v2改动挺大的，如果想要尝鲜可以先手动配置
 ```
-[Hysteria V2 protocol support](https://github.com/emptysuns/Hi_Hysteria/issues/263)
+[Hysteria V2 protocol support](https://github.com/lovelyOK/Hi_Hysteria/issues/263)
 
 [历史改进](md/log.md)
 
@@ -24,7 +24,7 @@ Hysteria这是一款由go编写的非常优秀的“轻量”代理程序，它�
 
 1、原项目提供的bench:
 
-![image](https://raw.githubusercontent.com/HyNetwork/hysteria/master/docs/bench/bench.png)
+![image](https://raw.githubusercontent.com/lovelyOK/hysteria/master/docs/bench/bench.png)
 
 2、50mbps北方电信,北京出口 直连落地vir San Jose机房163线路，22-23点测试YT 1080p60直播流:
 
@@ -73,7 +73,7 @@ Hysteria这是一款由go编写的非常优秀的“轻量”代理程序，它�
 
 ```
 su - root #switch to root user.
-bash <(curl -fsSL https://git.io/hysteria.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/lovelyOK/Hi_Hysteria/main/server/install.sh)
 ```
 
 ### 配置过程
@@ -266,7 +266,7 @@ hysteria://1.2.3.4:14274?protocol=wechat-video&auth=&obfsParam=Wvb9NlmWt0BxkJXoL
 
 ## 三·选读
 
-#### 1. [借用其他支持Socks5的GUI，来获得一个图形界面](https://github.com/emptysuns/Hi_Hysteria/blob/main/md/gui.md)
+#### 1. [借用其他支持Socks5的GUI，来获得一个图形界面](https://github.com/lovelyOK/Hi_Hysteria/blob/main/md/gui.md)
 
 ## 四·Todo
 
@@ -295,7 +295,7 @@ hysteria://1.2.3.4:14274?protocol=wechat-video&auth=&obfsParam=Wvb9NlmWt0BxkJXoL
 
 ## 六·鸣谢
 
-[@apernet/hysteria](https://github.com/HyNetwork/hysteria)
+[@apernet/hysteria](https://github.com/lovelyOK/hysteria)
 
 [@Loyalsoldier/geoip](https://github.com/Loyalsoldier/geoip)
 
@@ -303,7 +303,7 @@ hysteria://1.2.3.4:14274?protocol=wechat-video&auth=&obfsParam=Wvb9NlmWt0BxkJXoL
 
 [@2dust/v2rayN](https://github.com/2dust/v2rayN)
 
-[@Loyalsoldier/clash-rules](https://github.com/Loyalsoldier/clash-rules)
+[@Loyalsoldier/clash-rules](https://github.com/lovelyOK/clash-rules)
 
 [@zzzgydi/clash-verge](https://github.com/zzzgydi/clash-verge)
 
