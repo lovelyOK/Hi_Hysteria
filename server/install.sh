@@ -109,11 +109,11 @@ function checkSystemForUpdate() {
 
 function uninstall(){
 	rm -r /usr/bin/hihy
-    bash <(curl -fsSL https://git.io/rmhysteria.sh)
+    bash <(curl -fsSL https://raw.githubusercontent.com/lovelyOK/Hi_Hysteria/main/server/uninstall.sh)
 }
 
 function reinstall(){
-    bash <(curl -fsSL https://git.io/rehysteria.sh)
+    bash <(curl -fsSL https://raw.githubusercontent.com/lovelyOK/Hi_Hysteria/main/server/reinstall.sh)
 }
 
 function printMsg(){
@@ -139,7 +139,7 @@ function printMsg(){
 
 function hihy(){
 	if [ ! -f "/usr/bin/hihy" ]; then
-  		wget -q -O /usr/bin/hihy --no-check-certificate https://raw.githubusercontent.com/emptysuns/Hi_Hysteria/main/server/install.sh
+  		wget -q -O /usr/bin/hihy --no-check-certificate https://raw.githubusercontent.com/lovelyOK/Hi_Hysteria/main/server/install.sh
 		chmod +x /usr/bin/hihy
 	fi	
 }
@@ -436,7 +436,7 @@ function setHysteriaConfig(){
 	if [ "${protocol}" == "udp" ];then
 		echoColor green "\n->检测到您选择udp协议,可使用[端口跳跃/多端口](Port Hopping)功能,推荐使用"
 		echo -e "Tip: 长时间单端口 UDP 连接容易被运营商封锁/QoS/断流,启动此功能可以有效避免此问题."
-		echo -e "更加详细介绍请参考: https://github.com/emptysuns/Hi_Hysteria/blob/main/md/portHopping.md\n"
+		echo -e "更加详细介绍请参考: https://github.com/lovelyOK/Hi_Hysteria/blob/main/md/portHopping.md\n"
 		echo -e "\033[32m选择是否启用:\n\n\033[0m\033[33m\033[01m1、启用(默认)\n2、跳过\033[0m\033[32m\n\n输入序号:\033[0m"
 		read portHoppingStatus
 		if [ -z "${portHoppingStatus}" ] || [ $portHoppingStatus == "1" ];then
@@ -818,8 +818,6 @@ EOF
 }
 
 function downloadHysteriaCore(){
-	version=`curl --head -s https://github.com/apernet/hysteria/releases/latest | grep -i location | grep -o 'tag/[^[:space:]]*' | sed 's/tag\///;s/ //g'`
-	#兼容v2发布后的v1版本更新（暂时性的，下个版本移除）
 	version="v1.3.5"
 	echo -e "The Latest hysteria version:"`echoColor red "${version}"`"\nDownload..."
 	if [ -z ${version} ];then
@@ -828,17 +826,17 @@ function downloadHysteriaCore(){
 	fi 
     get_arch=`arch`
     if [ $get_arch = "x86_64" ];then
-        wget -q -O /etc/hihy/bin/appS --no-check-certificate https://github.com/apernet/hysteria/releases/download/${version}/hysteria-linux-amd64
+        wget -q -O /etc/hihy/bin/appS --no-check-certificate https://github.com/lovelyOK/hysteria/releases/download/${version}/hysteria-linux-amd64
     elif [ $get_arch = "aarch64" ];then
-        wget -q -O /etc/hihy/bin/appS --no-check-certificate https://github.com/apernet/hysteria/releases/download/${version}/hysteria-linux-arm64
+        wget -q -O /etc/hihy/bin/appS --no-check-certificate https://github.com/lovelyOK/hysteria/releases/download/${version}/hysteria-linux-arm64
     elif [ $get_arch = "mips64" ];then
-        wget -q -O /etc/hihy/bin/appS --no-check-certificate https://github.com/apernet/hysteria/releases/download/${version}/hysteria-linux-mipsle
+        wget -q -O /etc/hihy/bin/appS --no-check-certificate https://github.com/lovelyOK/hysteria/releases/download/${version}/hysteria-linux-mipsle
 	elif [ $get_arch = "s390x" ];then
-		wget -q -O /etc/hihy/bin/appS --no-check-certificate https://github.com/apernet/hysteria/releases/download/${version}/hysteria-linux-s390x
+		wget -q -O /etc/hihy/bin/appS --no-check-certificate https://github.com/lovelyOK/hysteria/releases/download/${version}/hysteria-linux-s390x
 	elif [ $get_arch = "i686" ];then
-		wget -q -O /etc/hihy/bin/appS --no-check-certificate https://github.com/apernet/hysteria/releases/download/${version}/hysteria-linux-386
+		wget -q -O /etc/hihy/bin/appS --no-check-certificate https://github.com/lovelyOK/hysteria/releases/download/${version}/hysteria-linux-386
     else
-        echoColor yellowBlack "Error[OS Message]:${get_arch}\nPlease open a issue to https://github.com/emptysuns/Hi_Hysteria/issues !"
+        echoColor yellowBlack "Error[OS Message]:${get_arch}\nPlease open a issue to https://github.com/lovelyOK/Hi_Hysteria/issues !"
         exit
     fi
 	if [ -f "/etc/hihy/bin/appS" ]; then
@@ -852,9 +850,7 @@ function downloadHysteriaCore(){
 function updateHysteriaCore(){
 	if [ -f "/etc/hihy/bin/appS" ]; then
 		localV=`/etc/hihy/bin/appS -v | cut -d " " -f 3`
-		remoteV=`curl --head -s https://github.com/apernet/hysteria/releases/latest | grep -i location | grep -o 'tag/[^[:space:]]*' | sed 's/tag\///;s/ //g'`
-		#兼容v2发布后的v1版本更新（暂时性的，下个版本移除）
-		remoteV="v1.3.5"
+	remoteV="v1.3.5"
 		if [ -z $remoteV ];then
 			echoColor red "Network Error: Can't connect to Github!"
 			exit
@@ -919,7 +915,7 @@ function changeServerConfig(){
 
 function hihyUpdate(){
 	localV=${hihyV}
-	remoteV=`curl -fsSL https://git.io/hysteria.sh | sed  -n 2p | cut -d '"' -f 2`
+	remoteV=`curl -fsSL https://raw.githubusercontent.com/lovelyOK/Hi_Hysteria/main/server/install.sh | sed -n 2p | cut -d '"' -f 2`
 	if [ -z $remoteV ];then
 		echoColor red "Network Error: Can't connect to Github!"
 		exit
@@ -928,7 +924,7 @@ function hihyUpdate(){
 		echoColor green "Already the latest version.Ignore."
 	else
 		rm -r /usr/bin/hihy
-		wget -q -O /usr/bin/hihy --no-check-certificate https://raw.githubusercontent.com/emptysuns/Hi_Hysteria/main/server/install.sh 2>/dev/null
+		wget -q -O /usr/bin/hihy --no-check-certificate https://raw.githubusercontent.com/lovelyOK/Hi_Hysteria/main/server/install.sh 2>/dev/null
 		chmod +x /usr/bin/hihy
 		echoColor green "Done."
 	fi
@@ -937,12 +933,12 @@ function hihyUpdate(){
 
 function hihyNotify(){
 	localV=${hihyV}
-	remoteV=`curl -fsSL https://git.io/hysteria.sh | sed  -n 2p | cut -d '"' -f 2`
+	remoteV=`curl -fsSL https://raw.githubusercontent.com/lovelyOK/Hi_Hysteria/main/server/install.sh | sed -n 2p | cut -d '"' -f 2`
 	if [ -z $remoteV ];then
 		echoColor red "Network Error: Can't connect to Github for checking hihy version!"
 	else
 		if [ "${localV}" != "${remoteV}" ];then
-			echoColor purple "[Update] hihy有更新,version:v${remoteV},建议更新并查看日志: https://github.com/emptysuns/Hi_Hysteria/commits/main"
+			echoColor purple "[Update] hihy有更新,version:v${remoteV},建议更新并查看日志: https://github.com/lovelyOK/Hi_Hysteria/commits/main"
 		fi
 	fi
 	
@@ -952,14 +948,12 @@ function hihyNotify(){
 function hyCoreNotify(){
 	if [ -f "/etc/hihy/bin/appS" ]; then
   		localV=`/etc/hihy/bin/appS -v | cut -d " " -f 3`
-		remoteV=`curl --head -s https://github.com/apernet/hysteria/releases/latest | grep -i location | grep -o 'tag/[^[:space:]]*' | sed 's/tag\///;s/ //g'`
-		#兼容v2发布后的v1版本更新（暂时性的，下个版本移除）
-		remoteV="v1.3.5"
+	remoteV="v1.3.5"
 		if [ -z $remoteV ];then
 			echoColor red "Network Error: Can't connect to Github for checking the hysteria version!"
 		else
 			if [ "${localV}" != "${remoteV}" ];then
-				echoColor purple "[Update] hysteria有更新,version:${remoteV}. 日志: https://github.com/apernet/hysteria/blob/master/CHANGELOG.md"
+				echoColor purple "[Update] hysteria有更新,version:${remoteV}. 日志: https://github.com/lovelyOK/hysteria/blob/master/CHANGELOG.md"
 			fi
 		fi
 		
@@ -984,8 +978,6 @@ function install()
 	fi
 	mkdir -p /etc/hihy/bin /etc/hihy/conf /etc/hihy/cert  /etc/hihy/result
     echoColor purple "Ready to install.\n"
-    version=`curl --head -s https://github.com/apernet/hysteria/releases/latest | grep -i location | grep -o 'tag/[^[:space:]]*' | sed 's/tag\///;s/ //g'`
-    #兼容v2发布后的v1版本更新（暂时性的，下个版本移除）
 	version="v1.3.5"
 	checkSystemForUpdate
 	downloadHysteriaCore
@@ -1355,98 +1347,98 @@ rule-providers:
   reject:
     type: http
     behavior: domain
-    url: "https://ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/reject.txt"
+    url: "https://raw.githubusercontent.com/lovelyOK/clash-rules/release/reject.txt"
     path: ./ruleset/reject.yaml
     interval: 86400
 
   icloud:
     type: http
     behavior: domain
-    url: "https://ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/icloud.txt"
+    url: "https://raw.githubusercontent.com/lovelyOK/clash-rules/release/icloud.txt"
     path: ./ruleset/icloud.yaml
     interval: 86400
 
   apple:
     type: http
     behavior: domain
-    url: "https://ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/apple.txt"
+    url: "https://raw.githubusercontent.com/lovelyOK/clash-rules/release/apple.txt"
     path: ./ruleset/apple.yaml
     interval: 86400
 
   google:
     type: http
     behavior: domain
-    url: "https://ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/google.txt"
+    url: "https://raw.githubusercontent.com/lovelyOK/clash-rules/release/google.txt"
     path: ./ruleset/google.yaml
     interval: 86400
 
   proxy:
     type: http
     behavior: domain
-    url: "https://ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/proxy.txt"
+    url: "https://raw.githubusercontent.com/lovelyOK/clash-rules/release/proxy.txt"
     path: ./ruleset/proxy.yaml
     interval: 86400
 
   direct:
     type: http
     behavior: domain
-    url: "https://ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/direct.txt"
+    url: "https://raw.githubusercontent.com/lovelyOK/clash-rules/release/direct.txt"
     path: ./ruleset/direct.yaml
     interval: 86400
 
   private:
     type: http
     behavior: domain
-    url: "https://ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/private.txt"
+    url: "https://raw.githubusercontent.com/lovelyOK/clash-rules/release/private.txt"
     path: ./ruleset/private.yaml
     interval: 86400
 
   gfw:
     type: http
     behavior: domain
-    url: "https://ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/gfw.txt"
+    url: "https://raw.githubusercontent.com/lovelyOK/clash-rules/release/gfw.txt"
     path: ./ruleset/gfw.yaml
     interval: 86400
 
   greatfire:
     type: http
     behavior: domain
-    url: "https://ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/greatfire.txt"
+    url: "https://raw.githubusercontent.com/lovelyOK/clash-rules/release/greatfire.txt"
     path: ./ruleset/greatfire.yaml
     interval: 86400
 
   tld-not-cn:
     type: http
     behavior: domain
-    url: "https://ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/tld-not-cn.txt"
+    url: "https://raw.githubusercontent.com/lovelyOK/clash-rules/release/tld-not-cn.txt"
     path: ./ruleset/tld-not-cn.yaml
     interval: 86400
 
   telegramcidr:
     type: http
     behavior: ipcidr
-    url: "https://ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/telegramcidr.txt"
+    url: "https://raw.githubusercontent.com/lovelyOK/clash-rules/release/telegramcidr.txt"
     path: ./ruleset/telegramcidr.yaml
     interval: 86400
 
   cncidr:
     type: http
     behavior: ipcidr
-    url: "https://ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/cncidr.txt"
+    url: "https://raw.githubusercontent.com/lovelyOK/clash-rules/release/cncidr.txt"
     path: ./ruleset/cncidr.yaml
     interval: 86400
 
   lancidr:
     type: http
     behavior: ipcidr
-    url: "https://ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/lancidr.txt"
+    url: "https://raw.githubusercontent.com/lovelyOK/clash-rules/release/lancidr.txt"
     path: ./ruleset/lancidr.yaml
     interval: 86400
 
   applications:
     type: http
     behavior: classical
-    url: "https://ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/applications.txt"
+    url: "https://raw.githubusercontent.com/lovelyOK/clash-rules/release/applications.txt"
     path: ./ruleset/applications.yaml
     interval: 86400
 
